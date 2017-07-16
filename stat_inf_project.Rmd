@@ -1,0 +1,51 @@
+---
+
+title: "Statistical inference with the GSS data"
+---
+l---
+
+output: 
+  md_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+
+## Setup
+
+### Load packages
+
+```{r load-packages, message = FALSE}
+library(ggplot2)
+library(dplyr)
+library(statsr)
+```
+
+### Load data
+
+```{r load-data}
+load("gss.Rdata")
+```
+
+
+* * *
+
+## Exploratory data analysis
+
+```{r}
+gss_filtered <- filter(gss, !is.na(wrkslf))
+
+ggplot(data = gss_filtered, mapping=aes(x = wrkslf, y = coninc))+geom_boxplot()
+```
+
+
+* * *
+
+## Inference
+
+```{r}
+inference(y = coninc, x = wrkslf, data = gss, statistic = "mean", type = "ht", null = 0,  alternative = "twosided", method = "theoretical")
+```
+```{r}
+inference(y = coninc, x = wrkslf, data = gss, statistic = "mean", type = "ci", method = "theoretical")
+```
